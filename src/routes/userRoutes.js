@@ -2,7 +2,7 @@
 import express from 'express';
 
 // -> Importando a função que mostra todos os usuários:
-import { getAllUsers, postNewUser, deleteUser, uptadeUser } from '../controllers/userController.js';
+import { getAllUsers, postNewUser, deleteUser, uptadeUser, searchInfor } from '../controllers/userController.js';
 
 // -> Variável que recebe o express():
 const router = express();
@@ -18,6 +18,9 @@ router.delete('/deleteUser/:id', deleteUser)
 
 // -> 4. ROTA QUE ATUALIZA UM USUÁRIO!
 router.patch('/updateUser/:id', uptadeUser)
+
+// -> 5. ROTA QUE PGUE AS INFORMAÇÕES DE UM USUÁRIO ATRAVÉS DO ID!
+router.get('/users/:id', searchInfor)
 
 // -> Exportando o router para o outro arquivo!
 export default router
