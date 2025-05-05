@@ -34,7 +34,7 @@ export const postNewUser = async (req, res) => {
     }
 }
 
-// -> 3. Função para deletar um usuário
+// -> 3. Função para deletar um usuário:
 export const deleteUser = async (req, res) => {
     try {
         const id = req.params.id
@@ -51,6 +51,7 @@ export const deleteUser = async (req, res) => {
     
 }
 
+// -> 4. Função para atualizar um usuário:
 export const uptadeUser = async (req, res) => {
     const id = req.params.id
     const {name, email} = req.body
@@ -64,6 +65,22 @@ export const uptadeUser = async (req, res) => {
         res.status(400).json({
         mensagem: "Erro ao atualizar usuário!",
         erro: error.message
+    })
+}
+}
+
+// -> 5. Função para buscar as informações de um usuário através do id:
+export const searchInfor = async (req, res) => {
+    const id = req.params.id
+    try {
+        const userfound = await prisma.user.findUnique({
+            where: {id: Number(id)}
+        })
+        res.status(400).json(userfound)
+    } catch (error) {
+        res.status(400).json({
+            mensagem: "Erro ao buscar usuário!",
+            erro: error.message
     })
 }
 }
