@@ -8,7 +8,7 @@ import { getAllUsers, postNewUser, deleteUser, uptadeUser, searchInfor } from '.
 import { validate } from '../middleware/validate.js';
 
 // -> Importando as funções de Schema:
-import { createUserSchema } from '../schemas/userschema.js';
+import { createUserSchema, updateUserSchema } from '../schemas/userschema.js';
 
 // -> Variável que recebe o express():
 const router = express();
@@ -23,7 +23,7 @@ router.post('/createUser', validate(createUserSchema), postNewUser)
 router.delete('/deleteUser/:id', deleteUser)
 
 // -> 4. ROTA QUE ATUALIZA UM USUÁRIO!
-router.patch('/updateUser/:id', uptadeUser)
+router.patch('/updateUser/:id', validate(updateUserSchema), uptadeUser)
 
 // -> 5. ROTA QUE PGUE AS INFORMAÇÕES DE UM USUÁRIO ATRAVÉS DO ID!
 router.get('/users/:id', searchInfor)
