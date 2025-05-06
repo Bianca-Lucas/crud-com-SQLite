@@ -17,12 +17,13 @@ export const getAllUsers = async (req, res) => {
 
 // -> 2. Função para criar um novo usuário:
 export const postNewUser = async (req, res) => {
-    const {name, email} = req.body
+    const {name, email,password} = req.body
     try {
         const newUser = await prisma.user.create({
             data:{
                 name,
-                email
+                email,
+                password
             }
         })
         res.status(201).json(newUser)
@@ -54,11 +55,11 @@ export const deleteUser = async (req, res) => {
 // -> 4. Função para atualizar um usuário:
 export const uptadeUser = async (req, res) => {
     const id = req.params.id
-    const {name, email} = req.body
+    const {name, email, password} = req.body
     try {
         const updateUser = await prisma.user.update({
             where: { id: parseInt(id) },
-            data: {name, email}
+            data: {name, email, password}
     })
         res.status(200).json(updateUser)
     } catch (error) {
