@@ -17,12 +17,13 @@ export const getAllUsers = async (req, res) => {
 
 // -> 2. Função para criar um novo usuário:
 export const postNewUser = async (req, res) => {
-    const {name, email} = req.body
+    const {name, email,password} = req.body
     try {
         const newUser = await prisma.user.create({
             data:{
                 name,
-                email
+                email,
+                password
             }
         })
         res.status(201).json(newUser)
