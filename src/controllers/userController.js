@@ -2,6 +2,9 @@
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
 
+// -> Importando a função "hashPassword"...
+import { generateToken, hashPassword } from '../utils/auth.js';
+
 // -> 1. Função para exibir todos os usuários:
 export const getAllUsers = async (req, res) => {
     try {
@@ -84,4 +87,36 @@ export const searchInfor = async (req, res) => {
             erro: error.message
     })
 }
+}
+
+// -> (AUTH) 6. Função para registrar um novo usuário:
+export const registerUser = async (req, res) => {
+    const {name, email, password} = req.body
+    try {
+        // -> Criar uma variável com a senha do usuário 'hasheada':
+        const hashedPassword = await hashPassword(password)
+        // -> Cria o usuário no banco de dados:
+        const newRegister = await prisma.user.create({
+            data: {
+                name: name, 
+                email: email,
+                password: hashedPassword
+            }
+        })
+        // -> Gerando um token JWT for user:
+        const token = generateToken(newRegister)
+        res.status(201).json({
+            name: newRegister.name,
+            email: newRegister.email,
+            token: token
+        })  
+    } catch (error) {
+        res.status(400).json(`
+            
+            Erro ao registrar o usuário:
+            nome: ${error.name}
+            messagem: ${error.message}
+            
+            `)
+    }
 }
